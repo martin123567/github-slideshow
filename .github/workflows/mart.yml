@@ -1,0 +1,16 @@
+name: martin site
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the site in the mart/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/mart -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        mart/builder:latest /bin/bash -c "chmod 777 /srv/mart && mart build --future"
